@@ -32,7 +32,7 @@ def my_post():
     vectorized_txt = vectorizer(preprocessed_txt)
     logging.info(f'Vectorized Text : {vectorized_txt}')
 
-    prediction = get_prediction(vectorized_txt)
+    prediction = get_prediction(vectorized_txt, text)
     logging.info(f'Prediction : {prediction}')
 
     if prediction == 'negative':
