@@ -3,51 +3,62 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <Link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}"></Link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>Sentiment Dashboard</title>
 </head>
 <body>
-
-    <div class="split left">
-        <div class="centered">
-            <img src="../static/products/prod1.jpg" alt="">
-        </div>
-    </div>
-
-
-    <div class="split right">
-        <div class="container mt-5 mb-5">
-            <div class="d-flex justify-content-center row">
-                <div class="d-flex flex-column col-md-8">
-                    <div>
-                        <label for="">Positive Sentiments : {{ data.positive }}</label>
-                    </div>
-                    <div>
-                        <label for="">Negative Sentiments : {{ data.negative }}</label>
-                    </div>
-                    <div>
-                        <form method="post">
-                          <textarea name="text"></textarea>
-                          <input type="submit">
-                        </form>
-                    </div>
-
-                    <div class="coment-bottom bg-white p-2 px-4">
-                        {% for review in data.reviews %}
-                        <hr/>
-                          <div
-                              class="commented-section mt-2">
-                              <div class="d-flex flex-row align-items-center commented-user">
-                                  </div>
-                                  <div class="text-nowrap bd-highlight"><span>{{ review }}</span></div>
-                                  <hr/>
-                        {% endfor %}
-                      </div>
+    <div class="app-shell">
+        <aside class="hero-panel">
+            <div class="hero-content">
+                <h1>Sentiment Analysis</h1>
+                <p>Track positive and negative reviews with a clean, responsive interface.</p>
+                <div class="stat-card stat-positive">
+                    <span>Positive</span>
+                    <strong>{{ data.positive }}</strong>
+                </div>
+                <div class="stat-card stat-negative">
+                    <span>Negative</span>
+                    <strong>{{ data.negative }}</strong>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='products/prod1.jpg') }}" alt="Product Image">
+            </div>
+        </aside>
 
+        <main class="content-panel">
+            <div class="content-header">
+                <div>
+                    <h2>Enter Review</h2>
+                    <p>Submit a review to classify its sentiment.</p>
+                </div>
+            </div>
+
+            <div class="review-card shadow-sm">
+                <form method="post">
+                    <div class="form-group">
+                        <textarea name="text" class="form-control review-input" placeholder="Type your product review here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">Analyze Sentiment</button>
+                </form>
+            </div>
+
+            <div class="review-feed">
+                <h3>Latest Reviews</h3>
+                {% if data.reviews %}
+                    <div class="list-group">
+                        {% for review in data.reviews %}
+                        <div class="list-group-item review-item">
+                            <span>{{ review }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">No reviews submitted yet.</div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
 </body>
 </html>
